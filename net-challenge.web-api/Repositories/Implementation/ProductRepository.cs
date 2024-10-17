@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using net_challenge.web_api.Models;
+﻿using net_challenge.web_api.Models;
 using net_challenge.web_api.Repositories.Base;
 using net_challenge.web_api.Repositories.Contract;
 
@@ -33,6 +32,11 @@ namespace net_challenge.web_api.Repositories.Implementation
                     Id = reader.GetInt32(reader.GetOrdinal("ProductId")),
                     Name = reader.GetString(reader.GetOrdinal("Name")),
                     Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+                    Stock = reader.GetInt32(reader.GetOrdinal("Stock")),
+                    CreatedBy = reader.GetInt32(reader.GetOrdinal("CreatedBy")),
+                    UpdatedBy = reader.GetInt32(reader.GetOrdinal("UpdatedBy")),
+                    CreatedDate = reader.GetDateTime(reader.GetOrdinal("CreatedDate")),
+                    UpdatedDate = reader.GetDateTime(reader.GetOrdinal("UpdatedDate")),
                 });
             return products;
         }

@@ -1,4 +1,3 @@
-using net_challenge.web_api;
 using net_challenge.web_api.Repositories.Contract;
 using net_challenge.web_api.Repositories.Implementation;
 using net_challenge.web_api.Services.Contract;
