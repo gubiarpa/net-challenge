@@ -36,7 +36,14 @@ namespace net_challenge.web_api.Controllers
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] ProductUpdateRequestDto productDto)
         {
             var product = productDto.ToModel(id);
-            await _productService.UpdateProduct(product);
+            await _productService.UpdateProduct(id, product);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            await _productService.DeleteProduct(id);
             return Ok();
         }
     }

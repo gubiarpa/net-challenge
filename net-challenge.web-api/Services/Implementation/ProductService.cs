@@ -18,9 +18,9 @@ namespace net_challenge.web_api.Services.Implementation
             await _productRepository.AddProduct(product);
         }
 
-        public async Task DeleteProduct(Product product)
+        public async Task DeleteProduct(int id)
         {
-            await _productRepository.DeleteProduct(product);
+            await _productRepository.DeleteProduct(id);
         }
 
         public async Task<IEnumerable<Product>> GetProducts()
@@ -28,9 +28,9 @@ namespace net_challenge.web_api.Services.Implementation
             return await _productRepository.GetProducts();
         }
 
-        public async Task UpdateProduct(Product product)
+        public async Task UpdateProduct(int id, Product product)
         {
-            await _productRepository.UpdateProduct(product);
+            await _productRepository.UpdateProduct(id, product);
         }
     }
 }

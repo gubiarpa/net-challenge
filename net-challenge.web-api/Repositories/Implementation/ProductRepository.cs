@@ -9,6 +9,7 @@ namespace net_challenge.web_api.Repositories.Implementation
         const string PRODUCT_ADD_SPNAME = "[dbo].[Product__Add]";
         const string PRODUCT_READ_SPNAME = "[dbo].[Product__Read]";
         const string PRODUCT_UPDATE_SPNAME = "[dbo].[Product__Update]";
+        const string PRODUCT_DELETE_SPNAME = "[dbo].[Product__Delete]";
 
         public ProductRepository(IConfiguration configuration) : base(configuration)
         {
@@ -30,9 +31,11 @@ namespace net_challenge.web_api.Repositories.Implementation
             await ExecuteSPWithoutResults(PRODUCT_ADD_SPNAME);
         }
 
-        public Task DeleteProduct(Product product)
+        public async Task DeleteProduct(int id)
         {
-            throw new NotImplementedException();
+            AddParameter("id", id);
+
+            await ExecuteSPWithoutResults(PRODUCT_DELETE_SPNAME);
         }
 
         public async Task<IEnumerable<Product>> GetProducts()
@@ -53,14 +56,14 @@ namespace net_challenge.web_api.Repositories.Implementation
             return products;
         }
 
-        public async Task UpdateProduct(Product product)
+        public async Task UpdateProduct(int id, Product product)
         {
             if (product is null)
             {
                 throw new ArgumentNullException(nameof(product));
             }
 
-            AddParameter("@Id", product.Id);
+            AddParameter("@Id", id);
             AddParameter("@Name", product.Name);
             AddParameter("@Price", product.Price);
             AddParameter("@Stock", product.Stock);

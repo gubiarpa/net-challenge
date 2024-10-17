@@ -6,7 +6,7 @@ namespace net_challenge.web_api.Repositories.Contract
     {
         Task<IEnumerable<Product>> GetProducts();
         Task AddProduct(Product product);
-        Task UpdateProduct(Product product);
-        Task DeleteProduct(Product product);
+        Task UpdateProduct(int id, Product product);
+        Task DeleteProduct(int id);
     }
 }
