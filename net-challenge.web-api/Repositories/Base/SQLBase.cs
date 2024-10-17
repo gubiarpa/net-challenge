@@ -12,6 +12,7 @@ namespace net_challenge.web_api.Repositories.Base
         public SQLBase(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("KidsoDb");
+            _parameters = new Dictionary<string, object>();
         }
 
         protected void AddParameter(string parameterName, object value)
@@ -32,10 +33,7 @@ namespace net_challenge.web_api.Repositories.Base
                     using (var command = new SqlCommand(spName, connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-
-                        if (_parameters is not null)
-                            foreach (var key in _parameters.Keys)
-                                command.Parameters.Add(new SqlParameter(key, _parameters[key]));
+                        command.AddParametersToCommand(_parameters);
 
                         await using (var reader = await command.ExecuteReaderAsync())
                         {
@@ -51,15 +49,14 @@ namespace net_challenge.web_api.Repositories.Base
                 }
                 finally
                 {
-                    if (connection.State.Equals(ConnectionState.Open))
-                        await connection.CloseAsync();
+                    await connection.CleanUpAsync(_parameters);
                 }
             }
 
             return results;
         }
 
-        protected async Task ExecuteSPWithoutResults(string spName, IEnumerable<SqlParameter> parameters)
+        protected async Task ExecuteSPWithoutResults(string spName)
         {
             await using (var connection = new SqlConnection(_connectionString))
             {
@@ -70,12 +67,7 @@ namespace net_challenge.web_api.Repositories.Base
                     using (var command = new SqlCommand(spName, connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-
-                        if (parameters is null)
-                            return;
-
-                        foreach (var parameter in parameters)
-                            command.Parameters.Add(parameter);
+                        command.AddParametersToCommand(_parameters);
 
                         await command.ExecuteNonQueryAsync();
                     }
@@ -86,8 +78,7 @@ namespace net_challenge.web_api.Repositories.Base
                 }
                 finally
                 {
-                    if (connection.State.Equals(ConnectionState.Open))
-                        await connection.CloseAsync();
+                    await connection.CleanUpAsync(_parameters);
                 }
             }
         }

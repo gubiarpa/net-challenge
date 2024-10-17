@@ -19,15 +19,16 @@ namespace net_challenge.web_api.Controllers
         public async Task<IActionResult> Get()
         {
             var products = (await _productService.GetProducts())
-                .Select(product => product.ToProductDto());
+                .Select(product => product.ToDto());
 
             return Ok(products);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] string str)
+        public async Task<IActionResult> Create([FromBody] ProductCreateRequestDto newProduct)
         {
-            return Created();
+            await _productService.AddProduct(newProduct.ToModel());
+            return Ok();
         }
     }
 }

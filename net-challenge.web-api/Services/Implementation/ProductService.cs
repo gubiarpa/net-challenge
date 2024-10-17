@@ -13,9 +13,9 @@ namespace net_challenge.web_api.Services.Implementation
             _productRepository = productRepository;
         }
 
-        public Task AddProduct(Product product)
+        public async Task AddProduct(Product product)
         {
-            throw new NotImplementedException();
+            await _productRepository.AddProduct(product);
         }
 
         public Task DeleteProduct(Product product)

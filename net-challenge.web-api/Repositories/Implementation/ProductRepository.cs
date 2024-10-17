@@ -13,9 +13,22 @@ namespace net_challenge.web_api.Repositories.Implementation
         {
         }
 
-        public Task AddProduct(Product product)
+        public async Task AddProduct(Product product)
         {
-            throw new NotImplementedException();
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
+            AddParameter("@Name", product.Name);
+            AddParameter("@Price", product.Price);
+            AddParameter("@Stock", product.Stock);
+            AddParameter("@CreatedBy", product.CreatedBy);
+            AddParameter("@UpdatedBy", product.UpdatedBy);
+            AddParameter("@CreatedDate", product.CreatedDate);
+            AddParameter("@UpdatedDate", product.UpdatedDate);
+
+            await ExecuteSPWithoutResults(PRODUCT_ADD_SPNAME);
         }
 
         public Task DeleteProduct(Product product)
