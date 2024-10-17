@@ -18,9 +18,9 @@ namespace net_challenge.web_api.Services.Implementation
             await _productRepository.AddProduct(product);
         }
 
-        public Task DeleteProduct(Product product)
+        public async Task DeleteProduct(Product product)
         {
-            throw new NotImplementedException();
+            await _productRepository.DeleteProduct(product);
         }
 
         public async Task<IEnumerable<Product>> GetProducts()
@@ -28,9 +28,9 @@ namespace net_challenge.web_api.Services.Implementation
             return await _productRepository.GetProducts();
         }
 
-        public Task UpdateProduct(Product product)
+        public async Task UpdateProduct(Product product)
         {
-            throw new NotImplementedException();
+            await _productRepository.UpdateProduct(product);
         }
     }
 }

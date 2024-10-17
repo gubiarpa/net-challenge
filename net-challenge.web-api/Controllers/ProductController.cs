@@ -25,9 +25,18 @@ namespace net_challenge.web_api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ProductCreateRequestDto newProduct)
+        public async Task<IActionResult> Create([FromBody] ProductCreateRequestDto productDto)
         {
-            await _productService.AddProduct(newProduct.ToModel());
+            var product = productDto.ToModel();
+            await _productService.AddProduct(product);
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] ProductUpdateRequestDto productDto)
+        {
+            var product = productDto.ToModel(id);
+            await _productService.UpdateProduct(product);
             return Ok();
         }
     }

@@ -5,13 +5,14 @@ namespace net_challenge.web_api.Repositories.Base
 {
     public abstract class SQLBase
     {
+        private const string CONNECTION_STRING_KEY = "KidsoDb";
         private readonly string _connectionString;
 
         private IDictionary<string, object> _parameters;
 
         public SQLBase(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("KidsoDb");
+            _connectionString = configuration.GetConnectionString(CONNECTION_STRING_KEY);
             _parameters = new Dictionary<string, object>();
         }
 

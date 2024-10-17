@@ -8,6 +8,7 @@ namespace net_challenge.web_api.Repositories.Implementation
     {
         const string PRODUCT_ADD_SPNAME = "[dbo].[Product__Add]";
         const string PRODUCT_READ_SPNAME = "[dbo].[Product__Read]";
+        const string PRODUCT_UPDATE_SPNAME = "[dbo].[Product__Update]";
 
         public ProductRepository(IConfiguration configuration) : base(configuration)
         {
@@ -23,10 +24,8 @@ namespace net_challenge.web_api.Repositories.Implementation
             AddParameter("@Name", product.Name);
             AddParameter("@Price", product.Price);
             AddParameter("@Stock", product.Stock);
-            AddParameter("@CreatedBy", product.CreatedBy);
-            AddParameter("@UpdatedBy", product.UpdatedBy);
-            AddParameter("@CreatedDate", product.CreatedDate);
-            AddParameter("@UpdatedDate", product.UpdatedDate);
+            AddParameter("@UserId", product.CreatedBy);
+            AddParameter("@ActionDate", product.CreatedDate);
 
             await ExecuteSPWithoutResults(PRODUCT_ADD_SPNAME);
         }
@@ -54,9 +53,21 @@ namespace net_challenge.web_api.Repositories.Implementation
             return products;
         }
 
-        public Task UpdateProduct(Product product)
+        public async Task UpdateProduct(Product product)
         {
-            throw new NotImplementedException();
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
+            AddParameter("@Id", product.Id);
+            AddParameter("@Name", product.Name);
+            AddParameter("@Price", product.Price);
+            AddParameter("@Stock", product.Stock);
+            AddParameter("@UserId", product.CreatedBy);
+            AddParameter("@ActionDate", product.CreatedDate);
+
+            await ExecuteSPWithoutResults(PRODUCT_UPDATE_SPNAME);
         }
     }
 }

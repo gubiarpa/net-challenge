@@ -24,6 +24,14 @@ namespace net_challenge.web_api.Dtos
         public int Id { get; set; }
         public string Name { get; set; }
     }
+
+    public class ProductUpdateRequestDto
+    {
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public int Stock { get; set; }
+        public int UserId { get; set; }
+    }
     #endregion
 
 
@@ -65,6 +73,23 @@ namespace net_challenge.web_api.Dtos
                 CreatedBy = newProduct.UserId,
                 CreatedDate = now,
                 UpdatedBy = newProduct.UserId,
+                UpdatedDate = now,
+            };
+        }
+
+        public static Product ToModel(this ProductUpdateRequestDto product, int id)
+        {
+            var now = DateTime.Now;
+
+            return new Product()
+            {
+                Id = id,
+                Name = product.Name,
+                Price = product.Price,
+                Stock = product.Stock,
+                CreatedBy = product.UserId,
+                CreatedDate = now,
+                UpdatedBy = product.UserId,
                 UpdatedDate = now,
             };
         }

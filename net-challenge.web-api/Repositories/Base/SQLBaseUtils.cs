@@ -5,7 +5,7 @@ namespace net_challenge.web_api.Repositories.Base
 {
     public static class SqlBaseUtils
     {
-        private static void AddParametersToCommand(this SqlCommand command, IDictionary<string, object> parameters)
+        public static void AddParametersToCommand(this SqlCommand command, IDictionary<string, object> parameters)
         {
             if (parameters.Count > 0)
             {
@@ -16,7 +16,7 @@ namespace net_challenge.web_api.Repositories.Base
             }
         }
 
-        private static async Task CleanUpAsync(this SqlConnection connection, IDictionary<string, object> parameters)
+        public static async Task CleanUpAsync(this SqlConnection connection, IDictionary<string, object> parameters)
         {
             parameters.Clear();
 
